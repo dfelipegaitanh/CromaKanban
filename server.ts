@@ -312,6 +312,19 @@ const KANBAN_TOOLS: FunctionDeclaration[] = [
       required: ['projectId', 'reason'],
     },
   },
+  {
+    name: 'deleteProject',
+    description:
+      'Elimina un proyecto existente ÚNICAMENTE si está completamente vacío (cardCount === 0) y existe más de un proyecto. Si el proyecto tiene una o más tarjetas, NO lo borres e informa al usuario que debe vaciar sus tarjetas primero.',
+    parameters: {
+      type: Type.OBJECT,
+      properties: {
+        projectId: { type: Type.STRING, description: 'ID exacto del proyecto a eliminar.' },
+        reason: { type: Type.STRING, description: 'Resumen breve en español.' },
+      },
+      required: ['projectId', 'reason'],
+    },
+  },
 ];
 
 async function startServer() {
@@ -414,7 +427,7 @@ async function startServer() {
         theme?: unknown;
         board?: {
           activeProjectId?: string;
-          projects?: Array<{ id: string; name: string }>;
+          projects?: Array<{ id: string; name: string; cardCount?: number }>;
           columns?: BoardSnapshotColumn[];
           cards?: BoardSnapshotCard[];
         };
@@ -456,7 +469,8 @@ async function startServer() {
           systemInstruction:
             'Eres el asistente inteligente integrado en CromaKanban. ' +
             'El usuario te da instrucciones en lenguaje natural (por texto o voz) para interactuar con sus tarjetas y columnas: ' +
-            'puede pedirte borrar tarjetas que cumplan una condición semántica, moverlas de columna, editar sus datos o prioridades, crear nuevas tarjetas o desglosar un proyecto en pendientes, crear/renombrar/borrar columnas o cambiar de tema visual. ' +
+            'puede pedirte borrar tarjetas que cumplan una condición semántica, moverlas de columna, editar sus datos o prioridades, crear nuevas tarjetas o desglosar un proyecto en pendientes, crear/renombrar/borrar columnas, crear/cambiar/eliminar proyectos o cambiar de tema visual. ' +
+            'Regla estricta de proyectos: NUNCA llames a deleteProject si el proyecto tiene cardCount > 0 o si es el único proyecto; en ese caso explícale al usuario que primero debe vaciar o mover las tarjetas del proyecto. ' +
             'Analiza semánticamente el título, descripción, categoría, prioridad y columna de cada tarjeta en el estado del tablero. ' +
             'Usa EXCLUSIVAMENTE los IDs exactos que aparecen en el estado actual del tablero. ' +
             'Cuando el usuario pida crear o desglosar tareas sin decir columna, envíalas a la columna de pendientes/por hacer/backlog/ideas (la primera columna inicial). ' +

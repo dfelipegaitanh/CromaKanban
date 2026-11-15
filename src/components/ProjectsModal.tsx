@@ -41,6 +41,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const createInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,6 +50,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
       setIsCreating(startInCreateMode);
       setNewName('');
       setEditingId(null);
+      setConfirmDeleteId(null);
       if (startInCreateMode) {
         window.setTimeout(() => createInputRef.current?.focus(), 30);
       }
@@ -356,6 +358,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
                           onClick={() => {
                             setEditingId(proj.id);
                             setEditingName(proj.name);
+                            setConfirmDeleteId(null);
                           }}
                           aria-label={`Renombrar proyecto ${proj.name}`}
                           title="Renombrar"
@@ -363,22 +366,64 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
                         >
                           <Pencil className="h-3.5 w-3.5" />
                         </button>
-                        {projects.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() => onDeleteProject(proj.id)}
-                            aria-label={`Eliminar proyecto ${proj.name}`}
-                            title="Eliminar proyecto"
-                            className="cursor-pointer rounded-md p-1.5 text-rose-600 opacity-75 hover:bg-rose-500/10 hover:opacity-100"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </button>
-                        )}
                       </div>
                     )}
                   </div>
 
-                  <div className="mt-4 flex justify-end">
+                  {proj.cards.length > 0 && (
+                    <p
+                      className="mt-2 text-[11px] leading-snug"
+                      style={{ color: 'var(--modal-text-muted)' }}
+                    >
+                      Tiene tarjetas activas: vacíalo antes de poder eliminarlo.
+                    </p>
+                  )}
+
+                  <div
+                    className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-3"
+                    style={{ borderColor: 'var(--modal-border)' }}
+                  >
+                    {confirmDeleteId === proj.id ? (
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onDeleteProject(proj.id);
+                            setConfirmDeleteId(null);
+                          }}
+                          className="inline-flex h-8 cursor-pointer items-center gap-1 rounded-lg bg-rose-600 px-2.5 text-xs font-bold text-white hover:bg-rose-700"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                          <span>Confirmar</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setConfirmDeleteId(null)}
+                          className="h-8 cursor-pointer rounded-lg px-2.5 text-xs font-semibold opacity-75 hover:opacity-100"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={projects.length <= 1 || proj.cards.length > 0}
+                        onClick={() => setConfirmDeleteId(proj.id)}
+                        aria-label={`Eliminar proyecto ${proj.name}`}
+                        title={
+                          projects.length <= 1
+                            ? 'Debe quedar al menos un proyecto'
+                            : proj.cards.length > 0
+                              ? `No puedes eliminar "${proj.name}" porque tiene ${proj.cards.length} tarjeta(s)`
+                              : `Eliminar proyecto "${proj.name}"`
+                        }
+                        className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold text-rose-600 transition-opacity hover:bg-rose-500/10 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-transparent"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        <span>Eliminar</span>
+                      </button>
+                    )}
+
                     <button
                       type="button"
                       onClick={() => {

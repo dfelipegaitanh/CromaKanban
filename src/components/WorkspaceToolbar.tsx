@@ -9,6 +9,7 @@ import {
   Search,
   SlidersHorizontal,
   Sun,
+  Trash2,
   Wand2,
   X,
 } from 'lucide-react';
@@ -30,6 +31,7 @@ interface WorkspaceToolbarProps {
   onSelectProject: (projectId: string) => void;
   onOpenNewProject: () => void;
   onOpenProjectsManager: () => void;
+  onDeleteProject: (projectId: string) => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
   priorityFilter: PriorityLevel | 'all';
@@ -53,6 +55,7 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
   onSelectProject,
   onOpenNewProject,
   onOpenProjectsManager,
+  onDeleteProject,
   searchQuery,
   onSearchChange,
   priorityFilter,
@@ -182,38 +185,64 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                 <div className="max-h-60 space-y-1 overflow-y-auto">
                   {projects.map((proj) => {
                     const isCurrent = proj.id === activeProject.id;
+                    const hasCards = proj.cards.length > 0;
+                    const canDelete = projects.length > 1 && !hasCards;
                     const pColor = isPsy
                       ? COLUMN_ACCENTS[proj.accent].psychedelicHex
                       : COLUMN_ACCENTS[proj.accent].standardHex;
                     return (
-                      <button
+                      <div
                         key={proj.id}
-                        type="button"
-                        onClick={() => {
-                          onSelectProject(proj.id);
-                          setProjectMenuOpen(false);
-                        }}
-                        className="flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-left text-xs transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+                        className="flex items-center gap-1 rounded-lg pr-1 transition-colors hover:bg-black/5 dark:hover:bg-white/10"
                       >
-                        <div className="flex min-w-0 items-center gap-2">
-                          <span
-                            className="h-2.5 w-2.5 shrink-0 rounded-full"
-                            style={{ backgroundColor: pColor }}
-                          />
-                          <span className={`truncate ${isCurrent ? 'font-bold' : 'font-medium'}`}>
-                            {proj.name}
-                          </span>
-                        </div>
-                        <div className="flex shrink-0 items-center gap-2">
-                          <span
-                            className="text-[11px] font-mono-tabular"
-                            style={{ color: 'var(--modal-text-muted)' }}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onSelectProject(proj.id);
+                            setProjectMenuOpen(false);
+                          }}
+                          className="flex min-w-0 flex-1 cursor-pointer items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-left text-xs"
+                        >
+                          <div className="flex min-w-0 items-center gap-2">
+                            <span
+                              className="h-2.5 w-2.5 shrink-0 rounded-full"
+                              style={{ backgroundColor: pColor }}
+                            />
+                            <span className={`truncate ${isCurrent ? 'font-bold' : 'font-medium'}`}>
+                              {proj.name}
+                            </span>
+                          </div>
+                          <div className="flex shrink-0 items-center gap-1.5">
+                            <span
+                              className="text-[11px] font-mono-tabular"
+                              style={{ color: 'var(--modal-text-muted)' }}
+                            >
+                              {proj.cards.length}
+                            </span>
+                            {isCurrent && <Check className="h-3.5 w-3.5" />}
+                          </div>
+                        </button>
+                        {projects.length > 1 && (
+                          <button
+                            type="button"
+                            disabled={!canDelete}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDeleteProject(proj.id);
+                              setProjectMenuOpen(false);
+                            }}
+                            aria-label={`Eliminar proyecto ${proj.name}`}
+                            title={
+                              hasCards
+                                ? `No puedes borrar "${proj.name}" porque tiene ${proj.cards.length} tarjeta(s)`
+                                : `Eliminar proyecto "${proj.name}"`
+                            }
+                            className="flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md text-rose-600 transition-colors hover:bg-rose-500/15 disabled:cursor-not-allowed disabled:opacity-25 disabled:hover:bg-transparent"
                           >
-                            {proj.cards.length}
-                          </span>
-                          {isCurrent && <Check className="h-3.5 w-3.5" />}
-                        </div>
-                      </button>
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        )}
+                      </div>
                     );
                   })}
                 </div>

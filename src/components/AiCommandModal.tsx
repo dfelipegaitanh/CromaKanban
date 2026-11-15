@@ -142,7 +142,11 @@ export const AiCommandModal: React.FC<AiCommandModalProps> = ({
           theme: snap.theme,
           board: {
             activeProjectId: snap.activeProjectId,
-            projects: snap.projects.map((p) => ({ id: p.id, name: p.name })),
+            projects: snap.projects.map((p) => ({
+              id: p.id,
+              name: p.name,
+              cardCount: p.cards.length,
+            })),
             columns: snap.columns,
             cards: snap.cards.map((c) => ({
               id: c.id,

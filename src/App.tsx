@@ -736,10 +736,22 @@ export default function App() {
     setProjects((prev) => prev.map((p) => (p.id === projectId ? { ...p, name } : p)));
   };
 
-  const handleDeleteProject = (projectId: string) => {
-    if (projects.length <= 1) return;
+  const handleDeleteProject = (projectId: string): boolean => {
+    if (projects.length <= 1) {
+      showNotice('Debe quedar al menos un proyecto en el espacio de trabajo.');
+      return false;
+    }
     const target = projects.find((p) => p.id === projectId);
-    if (!target) return;
+    if (!target) return false;
+
+    if (target.cards.length > 0) {
+      showNotice(
+        `No puedes borrar "${target.name}" porque tiene ${target.cards.length} ${
+          target.cards.length === 1 ? 'tarjeta' : 'tarjetas'
+        }. Vacíalas o muévelas primero.`
+      );
+      return false;
+    }
 
     const remaining = projects.filter((p) => p.id !== projectId);
     setProjects(remaining);
@@ -755,6 +767,7 @@ export default function App() {
     undoTimerRef.current = window.setTimeout(() => {
       setToastState(null);
     }, 6000);
+    return true;
   };
 
   // Filtered cards
@@ -1272,6 +1285,24 @@ export default function App() {
           projectActionExecuted = true;
           summaryParts.push(`Cambiado a "${target.name}"`);
         }
+      } else if (action.name === 'deleteProject' && typeof args.projectId === 'string') {
+        const target = projects.find((p) => p.id === args.projectId);
+        if (target) {
+          if (projects.length <= 1) {
+            showNotice('Debe quedar al menos un proyecto en el espacio de trabajo.');
+            return false;
+          }
+          if (target.cards.length > 0) {
+            showNotice(
+              `No puedes borrar "${target.name}" porque aún tiene ${target.cards.length} tarjeta(s).`
+            );
+            return false;
+          }
+          const deleted = handleDeleteProject(target.id);
+          if (deleted) {
+            return true;
+          }
+        }
       } else if (action.name === 'deleteCards' && Array.isArray(args.cardIds)) {
         const idSet = new Set(args.cardIds.map(String));
         const beforeCount = nextCards.length;
@@ -1546,6 +1577,7 @@ export default function App() {
           setProjectsCreateMode(false);
           setProjectsModalOpen(true);
         }}
+        onDeleteProject={handleDeleteProject}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         priorityFilter={priorityFilter}
