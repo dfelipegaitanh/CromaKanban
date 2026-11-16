@@ -4,7 +4,6 @@ import {
   ChevronDown,
   Mic,
   Moon,
-  Orbit,
   Plus,
   Search,
   SlidersHorizontal,
@@ -66,7 +65,6 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
   onOpenAiBreakdown,
   onOpenAiCommand,
 }) => {
-  const isPsy = theme === 'psychedelic';
   const isMobileLayout = layoutMode === 'mobile';
   const [projectMenuOpen, setProjectMenuOpen] = useState(false);
   const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
@@ -83,12 +81,9 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
     return () => document.removeEventListener('mousedown', handleOutside);
   }, [projectMenuOpen]);
 
-  const activeAccentColor = isPsy
-    ? COLUMN_ACCENTS[activeProject.accent].psychedelicHex
-    : COLUMN_ACCENTS[activeProject.accent].standardHex;
+  const activeAccentColor = COLUMN_ACCENTS[activeProject.accent].standardHex;
 
   const themeOptions: { id: ThemeMode; label: string; icon: React.ReactNode }[] = [
-    { id: 'psychedelic', label: 'Psicodélico', icon: <Orbit className="h-3.5 w-3.5 shrink-0" /> },
     { id: 'dark', label: 'Oscuro', icon: <Moon className="h-3.5 w-3.5 shrink-0" /> },
     { id: 'light', label: 'Claro', icon: <Sun className="h-3.5 w-3.5 shrink-0" /> },
   ];
@@ -143,7 +138,7 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
               }`}
               style={{
                 backgroundColor: 'var(--control-bg)',
-                border: isPsy ? `2px solid ${activeAccentColor}` : `1px solid var(--control-border)`,
+                border: `1px solid var(--control-border)`,
                 color: 'var(--control-text)',
               }}
             >
@@ -161,8 +156,8 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                 style={{
                   backgroundColor: 'var(--modal-bg)',
                   color: 'var(--modal-text)',
-                  border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-                  boxShadow: isPsy ? '6px 6px 0px #CCFF00' : '0 20px 40px -12px rgba(0,0,0,0.4)',
+                  border: `1px solid var(--modal-border)`,
+                  boxShadow: '0 20px 40px -12px rgba(0,0,0,0.4)',
                 }}
               >
                 <div
@@ -187,9 +182,7 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                     const isCurrent = proj.id === activeProject.id;
                     const hasCards = proj.cards.length > 0;
                     const canDelete = projects.length > 1 && !hasCards;
-                    const pColor = isPsy
-                      ? COLUMN_ACCENTS[proj.accent].psychedelicHex
-                      : COLUMN_ACCENTS[proj.accent].standardHex;
+                    const pColor = COLUMN_ACCENTS[proj.accent].standardHex;
                     return (
                       <div
                         key={proj.id}
@@ -323,10 +316,9 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                 onClick={onOpenAiBreakdown}
                 className="inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg px-3 text-xs font-bold whitespace-nowrap shrink-0 transition-transform active:translate-y-[1px]"
                 style={{
-                  backgroundColor: isPsy ? '#00F5D4' : 'var(--control-bg)',
-                  color: isPsy ? '#16072B' : 'var(--control-text)',
-                  border: isPsy ? '2px solid #16072B' : `1px solid var(--control-border)`,
-                  boxShadow: isPsy ? '3px 3px 0px #FF2E93' : 'none',
+                  backgroundColor: 'var(--control-bg)',
+                  color: 'var(--control-text)',
+                  border: `1px solid var(--control-border)`,
                 }}
               >
                 <Wand2 className="h-3.5 w-3.5 shrink-0" />
@@ -338,10 +330,9 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                 onClick={onOpenAiCommand}
                 className="inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-lg px-3 text-xs font-bold whitespace-nowrap shrink-0 transition-transform active:translate-y-[1px]"
                 style={{
-                  backgroundColor: isPsy ? '#FF2E93' : 'var(--control-bg)',
-                  color: isPsy ? '#FFF9F0' : 'var(--control-text)',
-                  border: isPsy ? '2px solid #16072B' : `1px solid var(--control-border)`,
-                  boxShadow: isPsy ? '3px 3px 0px #CCFF00' : 'none',
+                  backgroundColor: 'var(--control-bg)',
+                  color: 'var(--control-text)',
+                  border: `1px solid var(--control-border)`,
                 }}
               >
                 <Mic className="h-3.5 w-3.5 shrink-0" />
@@ -372,10 +363,9 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
               onClick={onOpenAiBreakdown}
               className="inline-flex h-9 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2 text-xs font-bold whitespace-nowrap transition-transform active:translate-y-[1px]"
               style={{
-                backgroundColor: isPsy ? '#00F5D4' : 'var(--control-bg)',
-                color: isPsy ? '#16072B' : 'var(--control-text)',
-                border: isPsy ? '2px solid #16072B' : `1px solid var(--control-border)`,
-                boxShadow: isPsy ? '2px 2px 0px #FF2E93' : 'none',
+                backgroundColor: 'var(--control-bg)',
+                color: 'var(--control-text)',
+                border: `1px solid var(--control-border)`,
               }}
             >
               <Wand2 className="h-3.5 w-3.5 shrink-0" />
@@ -387,10 +377,9 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
               onClick={onOpenAiCommand}
               className="inline-flex h-9 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg px-2 text-xs font-bold whitespace-nowrap transition-transform active:translate-y-[1px]"
               style={{
-                backgroundColor: isPsy ? '#FF2E93' : 'var(--control-bg)',
-                color: isPsy ? '#FFF9F0' : 'var(--control-text)',
-                border: isPsy ? '2px solid #16072B' : `1px solid var(--control-border)`,
-                boxShadow: isPsy ? '2px 2px 0px #CCFF00' : 'none',
+                backgroundColor: 'var(--control-bg)',
+                color: 'var(--control-text)',
+                border: `1px solid var(--control-border)`,
               }}
             >
               <Mic className="h-3.5 w-3.5 shrink-0" />
@@ -447,16 +436,8 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                       onClick={() => onPriorityFilterChange(opt.id)}
                       className="cursor-pointer rounded-md py-1.5 text-center text-xs font-semibold whitespace-nowrap transition-all duration-150"
                       style={{
-                        backgroundColor: isSelected
-                          ? isPsy
-                            ? '#00F5D4'
-                            : 'var(--cta-bg)'
-                          : 'transparent',
-                        color: isSelected
-                          ? isPsy
-                            ? '#16072B'
-                            : 'var(--cta-text)'
-                          : 'var(--control-text)',
+                        backgroundColor: isSelected ? 'var(--cta-bg)' : 'transparent',
+                        color: isSelected ? 'var(--cta-text)' : 'var(--control-text)',
                       }}
                     >
                       {opt.label}
@@ -471,10 +452,10 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
               <div
                 role="group"
                 aria-label="Selector de tema visual"
-                className="grid grid-cols-3 gap-1 rounded-lg p-1"
+                className="grid grid-cols-2 gap-1 rounded-lg p-1"
                 style={{
                   backgroundColor: 'var(--control-bg)',
-                  border: isPsy ? '2px solid #CCFF00' : `1px solid var(--control-border)`,
+                  border: `1px solid var(--control-border)`,
                 }}
               >
                 {themeOptions.map((opt) => {
@@ -487,16 +468,8 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                       aria-pressed={isSelected}
                       className="inline-flex cursor-pointer items-center justify-center gap-1 rounded-md py-1.5 text-xs font-semibold whitespace-nowrap transition-all duration-150"
                       style={{
-                        backgroundColor: isSelected
-                          ? opt.id === 'psychedelic'
-                            ? '#FF2E93'
-                            : 'var(--cta-bg)'
-                          : 'transparent',
-                        color: isSelected
-                          ? opt.id === 'psychedelic'
-                            ? '#FFF9F0'
-                            : 'var(--cta-text)'
-                          : 'var(--control-text)',
+                        backgroundColor: isSelected ? 'var(--cta-bg)' : 'transparent',
+                        color: isSelected ? 'var(--cta-text)' : 'var(--control-text)',
                       }}
                     >
                       {opt.icon}
@@ -530,16 +503,8 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                   onClick={() => onPriorityFilterChange(opt.id)}
                   className="cursor-pointer rounded-md px-2.5 py-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-all duration-150"
                   style={{
-                    backgroundColor: isSelected
-                      ? isPsy
-                        ? '#00F5D4'
-                        : 'var(--cta-bg)'
-                      : 'transparent',
-                    color: isSelected
-                      ? isPsy
-                        ? '#16072B'
-                        : 'var(--cta-text)'
-                      : 'var(--control-text)',
+                    backgroundColor: isSelected ? 'var(--cta-bg)' : 'transparent',
+                    color: isSelected ? 'var(--cta-text)' : 'var(--control-text)',
                   }}
                 >
                   {opt.label}
@@ -554,7 +519,7 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
             className="flex items-center gap-1 rounded-lg p-1"
             style={{
               backgroundColor: 'var(--control-bg)',
-              border: isPsy ? '2px solid #CCFF00' : `1px solid var(--control-border)`,
+              border: `1px solid var(--control-border)`,
             }}
           >
             {themeOptions.map((opt) => {
@@ -567,20 +532,8 @@ export const WorkspaceToolbar: React.FC<WorkspaceToolbarProps> = ({
                   aria-pressed={isSelected}
                   className="inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-all duration-150"
                   style={{
-                    backgroundColor: isSelected
-                      ? opt.id === 'psychedelic'
-                        ? '#FF2E93'
-                        : 'var(--cta-bg)'
-                      : 'transparent',
-                    color: isSelected
-                      ? opt.id === 'psychedelic'
-                        ? '#FFF9F0'
-                        : 'var(--cta-text)'
-                      : 'var(--control-text)',
-                    boxShadow:
-                      isSelected && opt.id === 'psychedelic'
-                        ? '2px 2px 0px #CCFF00'
-                        : 'none',
+                    backgroundColor: isSelected ? 'var(--cta-bg)' : 'transparent',
+                    color: isSelected ? 'var(--cta-text)' : 'var(--control-text)',
                   }}
                 >
                   {opt.icon}

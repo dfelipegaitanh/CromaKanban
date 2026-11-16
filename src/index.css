@@ -3,54 +3,11 @@
 
 @layer base {
   :root,
-  :root[data-theme="psychedelic"] {
+  :root[data-theme="dark"] {
     --font-display: "Bricolage Grotesque", sans-serif;
     --font-sans: "Plus Jakarta Sans", sans-serif;
     --font-mono: "JetBrains Mono", monospace;
 
-    --canvas-bg: #150529;
-    --header-bg: rgba(21, 5, 41, 0.84);
-    --header-border: rgba(255, 255, 255, 0.16);
-    --toolbar-bg: rgba(29, 10, 56, 0.82);
-
-    --text-on-canvas: #fff9f0;
-    --text-on-canvas-muted: #d8c6f2;
-
-    --column-bg: rgba(25, 8, 50, 0.94);
-    --column-border: rgba(255, 255, 255, 0.22);
-    --column-shadow: 0 18px 40px -16px rgba(9, 2, 20, 0.72);
-
-    --card-bg: #fffaf0;
-    --card-bg-hover: #ffffff;
-    --card-text: #16072b;
-    --card-text-muted: #543e75;
-    --card-border: #16072b;
-    --card-border-width: 2px;
-    --card-shadow: 4px 4px 0px #ff2e93;
-    --card-shadow-hover: 6px 6px 0px #00f5d4;
-
-    --control-bg: rgba(255, 250, 240, 0.1);
-    --control-bg-hover: rgba(255, 250, 240, 0.18);
-    --control-border: rgba(255, 250, 240, 0.26);
-    --control-text: #fffaf0;
-
-    --cta-bg: #ccff00;
-    --cta-bg-hover: #dfff54;
-    --cta-text: #16072b;
-    --cta-border: #16072b;
-    --cta-shadow: 3px 3px 0px #ff2e93;
-
-    --modal-bg: #fffaf0;
-    --modal-text: #16072b;
-    --modal-text-muted: #543e75;
-    --modal-border: #16072b;
-    --modal-input-bg: #ffffff;
-    --modal-input-border: #cabbe0;
-
-    --focus-ring: #00f5d4;
-  }
-
-  :root[data-theme="dark"] {
     --canvas-bg: #0b0f17;
     --header-bg: rgba(11, 15, 23, 0.92);
     --header-border: #1f293a;
@@ -162,56 +119,6 @@
   *:focus-visible {
     outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
-  }
-}
-
-@keyframes psychedelic-blob-a {
-  0%,
-  100% {
-    transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg);
-  }
-  33% {
-    transform: translate3d(8%, -6%, 0) scale(1.12) rotate(12deg);
-  }
-  66% {
-    transform: translate3d(-6%, 8%, 0) scale(0.94) rotate(-8deg);
-  }
-}
-
-@keyframes psychedelic-blob-b {
-  0%,
-  100% {
-    transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg);
-  }
-  40% {
-    transform: translate3d(-9%, 5%, 0) scale(1.14) rotate(-14deg);
-  }
-  75% {
-    transform: translate3d(7%, -7%, 0) scale(0.92) rotate(10deg);
-  }
-}
-
-@keyframes psychedelic-wave-shift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(-4%, 2%, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .animate-psy-a {
-    animation: psychedelic-blob-a 22s ease-in-out infinite;
-  }
-  .animate-psy-b {
-    animation: psychedelic-blob-b 26s ease-in-out infinite;
-  }
-  .animate-psy-wave {
-    animation: psychedelic-wave-shift 18s ease-in-out infinite;
   }
 }
 

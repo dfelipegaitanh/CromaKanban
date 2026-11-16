@@ -1,4 +1,4 @@
-export type ThemeMode = 'psychedelic' | 'dark' | 'light';
+export type ThemeMode = 'dark' | 'light';
 
 export type LayoutMode = 'desktop' | 'mobile';
 
@@ -58,8 +58,6 @@ export type ActiveView = 'board' | 'summary';
 export interface ColumnAccentTokens {
   id: ColumnAccentId;
   label: string;
-  psychedelicHex: string;
-  psychedelicTextOnHex: string;
   standardHex: string;
 }
 
@@ -67,43 +65,31 @@ export const COLUMN_ACCENTS: Record<ColumnAccentId, ColumnAccentTokens> = {
   acid: {
     id: 'acid',
     label: 'Lima ácida',
-    psychedelicHex: '#CCFF00',
-    psychedelicTextOnHex: '#16072B',
     standardHex: '#16A34A',
   },
   magenta: {
     id: 'magenta',
     label: 'Magenta solar',
-    psychedelicHex: '#FF2E93',
-    psychedelicTextOnHex: '#FFF9F0',
     standardHex: '#E11D48',
   },
   cyan: {
     id: 'cyan',
     label: 'Cian eléctrico',
-    psychedelicHex: '#00F5D4',
-    psychedelicTextOnHex: '#16072B',
     standardHex: '#0284C7',
   },
   tangerine: {
     id: 'tangerine',
     label: 'Mandarina',
-    psychedelicHex: '#FF7B00',
-    psychedelicTextOnHex: '#16072B',
     standardHex: '#D97706',
   },
   violet: {
     id: 'violet',
     label: 'Ultravioleta',
-    psychedelicHex: '#B66DFF',
-    psychedelicTextOnHex: '#16072B',
     standardHex: '#7C3AED',
   },
   emerald: {
     id: 'emerald',
     label: 'Menta cósmica',
-    psychedelicHex: '#38F9A5',
-    psychedelicTextOnHex: '#16072B',
     standardHex: '#059669',
   },
 };

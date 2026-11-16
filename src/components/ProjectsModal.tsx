@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, FolderKanban, Pencil, Plus, Trash2, X } from 'lucide-react';
 import { BOARD_TEMPLATES } from '../data/initialBoard';
-import { COLUMN_ACCENTS, ColumnAccentId, KanbanProject, ThemeMode } from '../types/kanban';
+import { COLUMN_ACCENTS, ColumnAccentId, KanbanProject } from '../types/kanban';
 
 interface ProjectsModalProps {
   open: boolean;
   startInCreateMode?: boolean;
-  theme: ThemeMode;
   projects: KanbanProject[];
   activeProjectId: string;
   onClose: () => void;
@@ -23,7 +22,6 @@ interface ProjectsModalProps {
 export const ProjectsModal: React.FC<ProjectsModalProps> = ({
   open,
   startInCreateMode = false,
-  theme,
   projects,
   activeProjectId,
   onClose,
@@ -32,8 +30,6 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
   onRenameProject,
   onDeleteProject,
 }) => {
-  const isPsy = theme === 'psychedelic';
-
   const [isCreating, setIsCreating] = useState(startInCreateMode);
   const [newName, setNewName] = useState('');
   const [newAccent, setNewAccent] = useState<ColumnAccentId>('magenta');
@@ -109,8 +105,8 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? '8px 8px 0px #CCFF00' : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -119,9 +115,8 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
             <div
               className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10"
               style={{
-                backgroundColor: isPsy ? '#B66DFF' : 'var(--cta-bg)',
-                color: isPsy ? '#16072B' : 'var(--cta-text)',
-                border: isPsy ? '2px solid #16072B' : 'none',
+                backgroundColor: 'var(--cta-bg)',
+                color: 'var(--cta-text)',
               }}
             >
               <FolderKanban className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -145,7 +140,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
                 style={{
                   backgroundColor: 'var(--cta-bg)',
                   color: 'var(--cta-text)',
-                  border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+                  border: '1px solid transparent',
                   boxShadow: 'var(--cta-shadow)',
                 }}
               >
@@ -171,7 +166,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
             className="mb-6 rounded-2xl p-4"
             style={{
               backgroundColor: 'var(--modal-input-bg)',
-              border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-input-border)`,
+              border: `1px solid var(--modal-input-border)`,
             }}
           >
             <div className="mb-3 flex items-center justify-between">
@@ -236,7 +231,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
               <div className="flex flex-wrap items-center gap-2">
                 {(Object.keys(COLUMN_ACCENTS) as ColumnAccentId[]).map((key) => {
                   const acc = COLUMN_ACCENTS[key];
-                  const color = isPsy ? acc.psychedelicHex : acc.standardHex;
+                  const color = acc.standardHex;
                   const selected = newAccent === key;
                   return (
                     <button
@@ -270,7 +265,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
                 style={{
                   backgroundColor: 'var(--cta-bg)',
                   color: 'var(--cta-text)',
-                  border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+                  border: '1px solid transparent',
                   boxShadow: 'var(--cta-shadow)',
                 }}
               >
@@ -284,9 +279,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
         <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
           {projects.map((proj) => {
             const isActive = proj.id === activeProjectId;
-            const accentHex = isPsy
-              ? COLUMN_ACCENTS[proj.accent].psychedelicHex
-              : COLUMN_ACCENTS[proj.accent].standardHex;
+            const accentHex = COLUMN_ACCENTS[proj.accent].standardHex;
             const isEditing = editingId === proj.id;
 
             return (
@@ -297,10 +290,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
                   backgroundColor: 'var(--modal-input-bg)',
                   border: isActive
                     ? `2px solid ${accentHex}`
-                    : isPsy
-                      ? '2px solid var(--modal-border)'
-                      : `1px solid var(--modal-input-border)`,
-                  boxShadow: isPsy && isActive ? `4px 4px 0px ${accentHex}` : 'none',
+                    : `1px solid var(--modal-input-border)`,
                 }}
               >
                 <div className="h-1.5 w-full" style={{ backgroundColor: accentHex }} />
@@ -433,11 +423,7 @@ export const ProjectsModal: React.FC<ProjectsModalProps> = ({
                       className="cursor-pointer rounded-lg px-3.5 py-1.5 text-xs font-bold transition-colors"
                       style={{
                         backgroundColor: isActive ? accentHex : 'var(--modal-bg)',
-                        color: isActive
-                          ? isPsy
-                            ? COLUMN_ACCENTS[proj.accent].psychedelicTextOnHex
-                            : '#FFFFFF'
-                          : 'var(--modal-text)',
+                        color: isActive ? '#FFFFFF' : 'var(--modal-text)',
                         border: isActive ? 'none' : `1px solid var(--modal-input-border)`,
                       }}
                     >

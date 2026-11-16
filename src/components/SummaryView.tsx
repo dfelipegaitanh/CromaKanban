@@ -6,13 +6,11 @@ import {
   KanbanColumnItem,
   PRIORITY_LABELS,
   PriorityLevel,
-  ThemeMode,
 } from '../types/kanban';
 
 interface SummaryViewProps {
   columns: KanbanColumnItem[];
   cards: KanbanCardItem[];
-  theme: ThemeMode;
   onBackToBoard: () => void;
   onOpenCard: (card: KanbanCardItem) => void;
 }
@@ -20,12 +18,9 @@ interface SummaryViewProps {
 export const SummaryView: React.FC<SummaryViewProps> = ({
   columns,
   cards,
-  theme,
   onBackToBoard,
   onOpenCard,
 }) => {
-  const isPsy = theme === 'psychedelic';
-
   const totalCards = cards.length;
   const allSteps = cards.flatMap((c) => c.checklist);
   const doneSteps = allSteps.filter((s) => s.done).length;
@@ -37,19 +32,19 @@ export const SummaryView: React.FC<SummaryViewProps> = ({
       id: 'high',
       label: PRIORITY_LABELS.high,
       count: highCount,
-      color: isPsy ? '#FF2E93' : '#DC2626',
+      color: '#DC2626',
     },
     {
       id: 'medium',
       label: PRIORITY_LABELS.medium,
       count: cards.filter((c) => c.priority === 'medium').length,
-      color: isPsy ? '#FF7B00' : '#D97706',
+      color: '#D97706',
     },
     {
       id: 'low',
       label: PRIORITY_LABELS.low,
       count: cards.filter((c) => c.priority === 'low').length,
-      color: isPsy ? '#00F5D4' : '#16A34A',
+      color: '#16A34A',
     },
   ];
 
@@ -102,7 +97,7 @@ export const SummaryView: React.FC<SummaryViewProps> = ({
               backgroundColor: 'var(--card-bg)',
               color: 'var(--card-text)',
               border: `var(--card-border-width) solid var(--card-border)`,
-              boxShadow: isPsy ? '5px 5px 0px #CCFF00' : 'var(--card-shadow)',
+              boxShadow: 'var(--card-shadow)',
             }}
           >
             <p className="text-xs font-semibold" style={{ color: 'var(--card-text-muted)' }}>
@@ -123,7 +118,7 @@ export const SummaryView: React.FC<SummaryViewProps> = ({
             backgroundColor: 'var(--card-bg)',
             color: 'var(--card-text)',
             border: `var(--card-border-width) solid var(--card-border)`,
-            boxShadow: isPsy ? '6px 6px 0px #00F5D4' : 'var(--card-shadow)',
+            boxShadow: 'var(--card-shadow)',
           }}
         >
           <h2 className="font-display mb-4 text-lg font-bold">Tarjetas por columna</h2>
@@ -131,9 +126,7 @@ export const SummaryView: React.FC<SummaryViewProps> = ({
             {columns.map((col) => {
               const count = cards.filter((c) => c.columnId === col.id).length;
               const pct = totalCards > 0 ? Math.round((count / totalCards) * 100) : 0;
-              const barColor = isPsy
-                ? COLUMN_ACCENTS[col.accent].psychedelicHex
-                : COLUMN_ACCENTS[col.accent].standardHex;
+              const barColor = COLUMN_ACCENTS[col.accent].standardHex;
               return (
                 <div key={col.id}>
                   <div className="mb-1.5 flex items-center justify-between text-sm">
@@ -167,7 +160,7 @@ export const SummaryView: React.FC<SummaryViewProps> = ({
             backgroundColor: 'var(--card-bg)',
             color: 'var(--card-text)',
             border: `var(--card-border-width) solid var(--card-border)`,
-            boxShadow: isPsy ? '6px 6px 0px #FF2E93' : 'var(--card-shadow)',
+            boxShadow: 'var(--card-shadow)',
           }}
         >
           <h2 className="font-display mb-4 text-lg font-bold">Distribución por prioridad</h2>
@@ -208,7 +201,7 @@ export const SummaryView: React.FC<SummaryViewProps> = ({
           backgroundColor: 'var(--card-bg)',
           color: 'var(--card-text)',
           border: `var(--card-border-width) solid var(--card-border)`,
-          boxShadow: isPsy ? '6px 6px 0px #FF7B00' : 'var(--card-shadow)',
+          boxShadow: 'var(--card-shadow)',
         }}
       >
         <div className="mb-4 flex items-center justify-between">

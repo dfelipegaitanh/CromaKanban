@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
-import { ThemeMode } from '../types/kanban';
 
 interface ShortcutsModalProps {
   open: boolean;
-  theme: ThemeMode;
   onClose: () => void;
 }
 
 const SHORTCUTS = [
-  { keys: '1', label: 'Cambiar a tema Psicodélico' },
-  { keys: '2', label: 'Cambiar a tema Oscuro' },
-  { keys: '3', label: 'Cambiar a tema Claro' },
+  { keys: '1', label: 'Cambiar a tema Oscuro' },
+  { keys: '2', label: 'Cambiar a tema Claro' },
   { keys: 'I', label: 'Desglosar tareas con IA' },
   { keys: 'K', label: 'Abrir comandos IA por voz y texto' },
   { keys: 'N', label: 'Crear una nueva columna' },
@@ -19,9 +16,7 @@ const SHORTCUTS = [
   { keys: 'Esc', label: 'Cerrar ventana o cancelar edición' },
 ];
 
-export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ open, theme, onClose }) => {
-  const isPsy = theme === 'psychedelic';
-
+export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ open, onClose }) => {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -46,8 +41,8 @@ export const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ open, theme, onC
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? '8px 8px 0px #FF7B00' : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >

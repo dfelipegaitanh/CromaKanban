@@ -42,18 +42,12 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(
     onOpenQuickMenu,
     onDeleteCard,
   }) => {
-    const isPsy = theme === 'psychedelic';
-    const accentHex = COLUMN_ACCENTS[columnAccent].psychedelicHex;
+    const accentHex = COLUMN_ACCENTS[columnAccent].standardHex;
 
     const doneCount = card.checklist.filter((c) => c.done).length;
     const totalChecklist = card.checklist.length;
 
     const priorityTextColor = (() => {
-      if (theme === 'psychedelic') {
-        if (card.priority === 'high') return '#B80D57';
-        if (card.priority === 'medium') return '#A14600';
-        return '#116149';
-      }
       if (theme === 'dark') {
         if (card.priority === 'high') return '#F87171';
         if (card.priority === 'medium') return '#FBBF24';
@@ -118,9 +112,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(
             backgroundColor: 'var(--card-bg)',
             color: 'var(--card-text)',
             border: `var(--card-border-width) solid var(--card-border)`,
-            boxShadow: isPsy
-              ? `10px 12px 0px ${accentHex}`
-              : '0 22px 44px -10px rgba(0, 0, 0, 0.42)',
+            boxShadow: '0 22px 44px -10px rgba(0, 0, 0, 0.42)',
           }}
         >
           <div className="mb-2 flex items-center justify-between gap-2">
@@ -156,7 +148,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(
             <div
               className="mt-3 flex items-center gap-3 border-t pt-2.5 text-xs font-mono-tabular"
               style={{
-                borderColor: isPsy ? 'rgba(22, 7, 43, 0.14)' : 'var(--card-border)',
+                borderColor: 'var(--card-border)',
                 color: 'var(--card-text-muted)',
               }}
             >
@@ -215,7 +207,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(
           backgroundColor: 'var(--card-bg)',
           color: 'var(--card-text)',
           border: `var(--card-border-width) solid var(--card-border)`,
-          boxShadow: isPsy ? `4px 4px 0px ${accentHex}` : 'var(--card-shadow)',
+          boxShadow: 'var(--card-shadow)',
           outline: isSelected ? `3px solid ${accentHex}` : undefined,
           outlineOffset: isSelected ? '2px' : undefined,
         }}
@@ -290,7 +282,7 @@ export const KanbanCard: React.FC<KanbanCardProps> = React.memo(
           <div
             className="mt-3 flex items-center gap-3 border-t pt-2.5 text-xs font-mono-tabular"
             style={{
-              borderColor: isPsy ? 'rgba(22, 7, 43, 0.14)' : 'var(--card-border)',
+              borderColor: 'var(--card-border)',
               color: 'var(--card-text-muted)',
             }}
           >

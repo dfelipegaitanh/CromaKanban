@@ -14,7 +14,6 @@ import {
   COLUMN_ACCENTS,
   KanbanCardItem,
   KanbanColumnItem,
-  ThemeMode,
 } from '../types/kanban';
 
 interface CardQuickMenuSheetProps {
@@ -22,7 +21,6 @@ interface CardQuickMenuSheetProps {
   columns: KanbanColumnItem[];
   cardIndexInColumn: number;
   totalInColumn: number;
-  theme: ThemeMode;
   onClose: () => void;
   onMoveWithinColumn: (cardId: string, direction: -1 | 1) => void;
   onMoveToColumn: (cardId: string, targetColumnId: string) => void;
@@ -37,7 +35,6 @@ export const CardQuickMenuSheet: React.FC<CardQuickMenuSheetProps> = ({
   columns,
   cardIndexInColumn,
   totalInColumn,
-  theme,
   onClose,
   onMoveWithinColumn,
   onMoveToColumn,
@@ -46,8 +43,6 @@ export const CardQuickMenuSheet: React.FC<CardQuickMenuSheetProps> = ({
   onEditCard,
   onDeleteCard,
 }) => {
-  const isPsy = theme === 'psychedelic';
-
   useEffect(() => {
     if (!card) return;
     const onKey = (e: KeyboardEvent) => {
@@ -67,12 +62,6 @@ export const CardQuickMenuSheet: React.FC<CardQuickMenuSheetProps> = ({
   const canMoveUp = cardIndexInColumn > 0;
   const canMoveDown = cardIndexInColumn >= 0 && cardIndexInColumn < totalInColumn - 1;
 
-  const currentAccent = currentColumn
-    ? isPsy
-      ? COLUMN_ACCENTS[currentColumn.accent].psychedelicHex
-      : COLUMN_ACCENTS[currentColumn.accent].standardHex
-    : '#FF2E93';
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-0 backdrop-blur-sm sm:items-center sm:p-4"
@@ -86,8 +75,8 @@ export const CardQuickMenuSheet: React.FC<CardQuickMenuSheetProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? `8px 8px 0px ${currentAccent}` : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -208,9 +197,7 @@ export const CardQuickMenuSheet: React.FC<CardQuickMenuSheetProps> = ({
           <div className="grid max-h-40 grid-cols-2 gap-2 overflow-y-auto">
             {columns.map((col) => {
               const isCurrent = col.id === card.columnId;
-              const colColor = isPsy
-                ? COLUMN_ACCENTS[col.accent].psychedelicHex
-                : COLUMN_ACCENTS[col.accent].standardHex;
+              const colColor = COLUMN_ACCENTS[col.accent].standardHex;
               return (
                 <button
                   key={col.id}
@@ -259,7 +246,7 @@ export const CardQuickMenuSheet: React.FC<CardQuickMenuSheetProps> = ({
               style={{
                 backgroundColor: 'var(--cta-bg)',
                 color: 'var(--cta-text)',
-                border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+                border: '1px solid transparent',
                 boxShadow: 'var(--cta-shadow)',
               }}
             >

@@ -12,7 +12,7 @@ const DB_FILE = path.join(DB_DIR, 'cromakanban-db.json');
 interface PersistedBoardPayload {
   projects: unknown[];
   activeProjectId: string;
-  theme: 'psychedelic' | 'dark' | 'light';
+  theme: 'dark' | 'light';
   updatedAt: string;
 }
 
@@ -24,7 +24,7 @@ async function readBoardDb(): Promise<PersistedBoardPayload | null> {
     const parsed = JSON.parse(raw) as Partial<PersistedBoardPayload>;
     if (Array.isArray(parsed.projects) && parsed.projects.length > 0) {
       const theme =
-        parsed.theme === 'dark' || parsed.theme === 'light' ? parsed.theme : 'psychedelic';
+        parsed.theme === 'dark' || parsed.theme === 'light' ? parsed.theme : 'dark';
       return {
         projects: parsed.projects,
         activeProjectId: typeof parsed.activeProjectId === 'string' ? parsed.activeProjectId : '',
@@ -269,13 +269,13 @@ const KANBAN_TOOLS: FunctionDeclaration[] = [
   },
   {
     name: 'setTheme',
-    description: 'Cambia el tema visual del tablero entre psicodélico, oscuro o claro.',
+    description: 'Cambia el tema visual del tablero entre oscuro o claro.',
     parameters: {
       type: Type.OBJECT,
       properties: {
         theme: {
           type: Type.STRING,
-          enum: ['psychedelic', 'dark', 'light'],
+          enum: ['dark', 'light'],
           description: 'Tema visual destino.',
         },
         reason: { type: Type.STRING, description: 'Resumen breve en español.' },
@@ -360,7 +360,7 @@ async function startServer() {
       }
 
       const theme =
-        body.theme === 'dark' || body.theme === 'light' ? body.theme : 'psychedelic';
+        body.theme === 'dark' || body.theme === 'light' ? body.theme : 'dark';
 
       const payload: PersistedBoardPayload = {
         projects: body.projects,
@@ -444,7 +444,8 @@ async function startServer() {
       const projects = Array.isArray(body?.board?.projects) ? body.board.projects : [];
       const activeProjectId =
         typeof body?.board?.activeProjectId === 'string' ? body.board.activeProjectId : '';
-      const currentTheme = typeof body?.theme === 'string' ? body.theme : 'psychedelic';
+      const currentTheme =
+        body?.theme === 'dark' || body?.theme === 'light' ? body.theme : 'dark';
 
       const ai = getGeminiClient();
 

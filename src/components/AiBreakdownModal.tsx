@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Loader2, Wand2, X } from 'lucide-react';
-import { KanbanColumnItem, PriorityLevel, ThemeMode } from '../types/kanban';
+import { KanbanColumnItem, PriorityLevel } from '../types/kanban';
 
 export interface AiGeneratedTaskPayload {
   title: string;
@@ -12,7 +12,6 @@ export interface AiGeneratedTaskPayload {
 
 interface AiBreakdownModalProps {
   open: boolean;
-  theme: ThemeMode;
   columns: KanbanColumnItem[];
   defaultColumnId: string;
   onClose: () => void;
@@ -27,13 +26,11 @@ const EXAMPLE_PROMPTS = [
 
 export const AiBreakdownModal: React.FC<AiBreakdownModalProps> = ({
   open,
-  theme,
   columns,
   defaultColumnId,
   onClose,
   onTasksGenerated,
 }) => {
-  const isPsy = theme === 'psychedelic';
   const [goalText, setGoalText] = useState('');
   const [targetColumnId, setTargetColumnId] = useState(defaultColumnId);
   const [loading, setLoading] = useState(false);
@@ -119,8 +116,8 @@ export const AiBreakdownModal: React.FC<AiBreakdownModalProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? '8px 8px 0px #FF2E93' : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -129,9 +126,8 @@ export const AiBreakdownModal: React.FC<AiBreakdownModalProps> = ({
             <div
               className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10"
               style={{
-                backgroundColor: isPsy ? '#CCFF00' : 'var(--cta-bg)',
-                color: isPsy ? '#16072B' : 'var(--cta-text)',
-                border: isPsy ? '2px solid #16072B' : 'none',
+                backgroundColor: 'var(--cta-bg)',
+                color: 'var(--cta-text)',
               }}
             >
               <Wand2 className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -273,7 +269,7 @@ export const AiBreakdownModal: React.FC<AiBreakdownModalProps> = ({
                 style={{
                   backgroundColor: 'var(--cta-bg)',
                   color: 'var(--cta-text)',
-                  border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+                  border: '1px solid transparent',
                   boxShadow: 'var(--cta-shadow)',
                 }}
               >

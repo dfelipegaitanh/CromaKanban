@@ -77,9 +77,8 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
   onMoveColumn,
   onDeleteColumn,
 }) => {
-  const isPsy = theme === 'psychedelic';
   const accentToken = COLUMN_ACCENTS[column.accent];
-  const accentColor = isPsy ? accentToken.psychedelicHex : accentToken.standardHex;
+  const accentColor = accentToken.standardHex;
 
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleDraft, setTitleDraft] = useState(column.title);
@@ -161,12 +160,8 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
         backgroundColor: 'var(--column-bg)',
         border: isColumnDropTarget
           ? `2px solid ${accentColor}`
-          : isPsy
-            ? `2px solid ${accentColor}`
-            : `1px solid var(--column-border)`,
-        boxShadow: isPsy
-          ? `6px 6px 0px rgba(22, 7, 43, 0.85)`
-          : 'var(--column-shadow)',
+          : `1px solid var(--column-border)`,
+        boxShadow: 'var(--column-shadow)',
       }}
     >
       {/* Top horizontal color accent bar */}
@@ -223,7 +218,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
               title="Haz clic para renombrar esta columna"
               className="font-display cursor-text truncate text-left text-base font-extrabold tracking-tight"
               style={{
-                color: isPsy ? accentColor : 'var(--text-on-canvas)',
+                color: 'var(--text-on-canvas)',
               }}
             >
               {column.title}
@@ -318,7 +313,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                         }}
                         className="h-6 w-6 cursor-pointer rounded-full border-2 transition-transform hover:scale-110"
                         style={{
-                          backgroundColor: isPsy ? acc.psychedelicHex : acc.standardHex,
+                          backgroundColor: acc.standardHex,
                           borderColor: selected ? 'var(--modal-text)' : 'transparent',
                         }}
                       />
@@ -353,7 +348,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
           <div
             className="flex flex-col items-center justify-center rounded-xl border border-dashed px-4 py-8 text-center text-xs"
             style={{
-              borderColor: isPsy ? 'rgba(255, 250, 240, 0.3)' : 'var(--column-border)',
+              borderColor: 'var(--column-border)',
               color: 'var(--text-on-canvas-muted)',
             }}
           >
@@ -391,7 +386,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
               backgroundColor: 'var(--card-bg)',
               color: 'var(--card-text)',
               border: `var(--card-border-width) solid var(--card-border)`,
-              boxShadow: isPsy ? `4px 4px 0px ${accentColor}` : 'var(--card-shadow)',
+              boxShadow: 'var(--card-shadow)',
             }}
           >
             <input
@@ -463,7 +458,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
                 className="cursor-pointer rounded-lg px-3.5 py-1.5 text-xs font-bold transition-opacity disabled:cursor-not-allowed disabled:opacity-45"
                 style={{
                   backgroundColor: accentColor,
-                  color: isPsy ? accentToken.psychedelicTextOnHex : '#FFFFFF',
+                  color: '#FFFFFF',
                 }}
               >
                 Agregar

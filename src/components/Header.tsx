@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Menu, Monitor, Plus, Smartphone, X } from 'lucide-react';
-import { ActiveView, LayoutMode, ThemeMode } from '../types/kanban';
+import { ActiveView, LayoutMode } from '../types/kanban';
 
 interface HeaderProps {
-  theme: ThemeMode;
   layoutMode: LayoutMode;
   onChangeLayoutMode: (mode: LayoutMode) => void;
   activeView: ActiveView;
@@ -15,7 +14,6 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  theme,
   layoutMode,
   onChangeLayoutMode,
   activeView,
@@ -25,7 +23,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenShortcuts,
   onAddColumnClick,
 }) => {
-  const isPsy = theme === 'psychedelic';
   const isMobileLayout = layoutMode === 'mobile';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuContainerRef = useRef<HTMLDivElement>(null);
@@ -73,7 +70,6 @@ export const Header: React.FC<HeaderProps> = ({
           }`}
           style={{
             color: 'var(--text-on-canvas)',
-            textShadow: isPsy ? '2px 2px 0px #ff2e93' : 'none',
           }}
         >
           CromaKanban
@@ -173,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
             style={{
               backgroundColor: 'var(--cta-bg)',
               color: 'var(--cta-text)',
-              border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+              border: '1px solid transparent',
               boxShadow: 'var(--cta-shadow)',
             }}
           >

@@ -11,7 +11,6 @@ import { KanbanColumn } from './components/KanbanColumn';
 import { MobileCardActionBar } from './components/MobileCardActionBar';
 import { NewColumnModal } from './components/NewColumnModal';
 import { ProjectsModal } from './components/ProjectsModal';
-import { PsychedelicBackdrop } from './components/PsychedelicBackdrop';
 import { ShortcutsModal } from './components/ShortcutsModal';
 import { SummaryView } from './components/SummaryView';
 import { TemplatesModal } from './components/TemplatesModal';
@@ -94,12 +93,12 @@ function loadActiveProjectId(projects: KanbanProject[]): string {
 function loadTheme(): ThemeMode {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.theme);
-    if (raw === 'psychedelic' || raw === 'dark' || raw === 'light') {
+    if (raw === 'dark' || raw === 'light') {
       return raw;
     }
-    return 'psychedelic';
+    return 'dark';
   } catch {
-    return 'psychedelic';
+    return 'dark';
   }
 }
 
@@ -328,9 +327,9 @@ export default function App() {
             ? (data.activeProjectId as string)
             : nextProjects[0].id;
           const nextTheme: ThemeMode =
-            data.theme === 'dark' || data.theme === 'light' || data.theme === 'psychedelic'
+            data.theme === 'dark' || data.theme === 'light'
               ? data.theme
-              : 'psychedelic';
+              : 'dark';
 
           skipNextSyncRef.current = true;
           isDbHydratedRef.current = true;
@@ -589,9 +588,8 @@ export default function App() {
         return;
       }
 
-      if (e.key === '1') setTheme('psychedelic');
-      if (e.key === '2') setTheme('dark');
-      if (e.key === '3') setTheme('light');
+      if (e.key === '1') setTheme('dark');
+      if (e.key === '2') setTheme('light');
       if (e.key.toLowerCase() === 'i') {
         e.preventDefault();
         setAiModalOpen(true);
@@ -1457,11 +1455,10 @@ export default function App() {
           summaryParts.push(`Columna "${col.title}" eliminada`);
         }
       } else if (action.name === 'setTheme' && typeof args.theme === 'string') {
-        if (args.theme === 'psychedelic' || args.theme === 'dark' || args.theme === 'light') {
+        if (args.theme === 'dark' || args.theme === 'light') {
           setTheme(args.theme);
           themeChanged = true;
           const themeNames: Record<ThemeMode, string> = {
-            psychedelic: 'Psicodélico',
             dark: 'Oscuro',
             light: 'Claro',
           };
@@ -1490,7 +1487,6 @@ export default function App() {
     return false;
   };
 
-  const isPsy = theme === 'psychedelic';
   const activeOverlayCard = draggingCardMeta
     ? cards.find((c) => c.id === draggingCardMeta.cardId) ?? null
     : null;
@@ -1545,10 +1541,7 @@ export default function App() {
         activeView === 'board' ? 'h-[100dvh] overflow-hidden' : 'min-h-[100dvh]'
       } ${draggingCardMeta || isPanningBoard ? 'select-none' : ''}`}
     >
-      <PsychedelicBackdrop active={isPsy} />
-
       <Header
-        theme={theme}
         layoutMode={layoutMode}
         onChangeLayoutMode={setLayoutMode}
         activeView={activeView}
@@ -1596,7 +1589,6 @@ export default function App() {
         <SummaryView
           columns={columns}
           cards={cards}
-          theme={theme}
           onBackToBoard={() => setActiveView('board')}
           onOpenCard={(card) => setEditingCard(card)}
         />
@@ -1620,9 +1612,7 @@ export default function App() {
               {columns.map((col) => {
                 const count = filteredCards.filter((c) => c.columnId === col.id).length;
                 const isVisible = visibleColumnIds.includes(col.id);
-                const accent = isPsy
-                  ? COLUMN_ACCENTS[col.accent].psychedelicHex
-                  : COLUMN_ACCENTS[col.accent].standardHex;
+                const accent = COLUMN_ACCENTS[col.accent].standardHex;
                 return (
                   <button
                     key={col.id}
@@ -1701,7 +1691,7 @@ export default function App() {
                 backgroundColor: 'var(--card-bg)',
                 color: 'var(--card-text)',
                 border: `var(--card-border-width) solid var(--card-border)`,
-                boxShadow: isPsy ? '4px 4px 0px #00F5D4' : '0 8px 20px rgba(0,0,0,0.28)',
+                boxShadow: '0 8px 20px rgba(0,0,0,0.28)',
               }}
             >
               <ChevronLeft className="h-5 w-5" />
@@ -1718,7 +1708,7 @@ export default function App() {
                 backgroundColor: 'var(--card-bg)',
                 color: 'var(--card-text)',
                 border: `var(--card-border-width) solid var(--card-border)`,
-                boxShadow: isPsy ? '4px 4px 0px #CCFF00' : '0 8px 20px rgba(0,0,0,0.28)',
+                boxShadow: '0 8px 20px rgba(0,0,0,0.28)',
               }}
             >
               <ChevronRight className="h-5 w-5" />
@@ -1733,7 +1723,7 @@ export default function App() {
                   backgroundColor: 'var(--card-bg)',
                   color: 'var(--card-text)',
                   border: `var(--card-border-width) solid var(--card-border)`,
-                  boxShadow: isPsy ? '5px 5px 0px #FF2E93' : 'var(--card-shadow)',
+                  boxShadow: 'var(--card-shadow)',
                 }}
               >
                 <div>
@@ -1823,7 +1813,7 @@ export default function App() {
                   }`}
                   style={{
                     backgroundColor: 'var(--control-bg)',
-                    borderColor: isPsy ? 'rgba(204, 255, 0, 0.55)' : 'var(--column-border)',
+                    borderColor: 'var(--column-border)',
                     color: 'var(--text-on-canvas)',
                   }}
                 >
@@ -1862,7 +1852,6 @@ export default function App() {
           columns={columns}
           cardIndexInColumn={selectedCardMetrics.index}
           totalInColumn={selectedCardMetrics.total}
-          theme={theme}
           onMoveWithinColumn={moveCardWithinColumn}
           onMoveToColumn={moveCardToColumn}
           onClose={() => setSelectedCardId(null)}
@@ -1882,7 +1871,7 @@ export default function App() {
             backgroundColor: 'var(--card-bg)',
             color: 'var(--card-text)',
             border: `var(--card-border-width) solid var(--card-border)`,
-            boxShadow: isPsy ? '5px 5px 0px #00F5D4' : '0 16px 32px rgba(0,0,0,0.35)',
+            boxShadow: '0 16px 32px rgba(0,0,0,0.35)',
           }}
         >
           <span className="leading-snug">{toastState.message}</span>
@@ -1909,7 +1898,6 @@ export default function App() {
         columns={columns}
         cardIndexInColumn={quickMenuCardMetrics.index}
         totalInColumn={quickMenuCardMetrics.total}
-        theme={theme}
         onClose={() => setQuickMenuCardId(null)}
         onMoveWithinColumn={moveCardWithinColumn}
         onMoveToColumn={moveCardToColumn}
@@ -1926,7 +1914,6 @@ export default function App() {
       <CardModal
         card={editingCard}
         columns={columns}
-        theme={theme}
         onClose={() => setEditingCard(null)}
         onSave={handleSaveCard}
         onDelete={handleDeleteCard}
@@ -1934,7 +1921,6 @@ export default function App() {
 
       <NewColumnModal
         open={newColumnOpen}
-        theme={theme}
         onClose={() => setNewColumnOpen(false)}
         onCreateColumn={handleCreateColumn}
       />
@@ -1942,7 +1928,6 @@ export default function App() {
       <ProjectsModal
         open={projectsModalOpen}
         startInCreateMode={projectsCreateMode}
-        theme={theme}
         projects={projects}
         activeProjectId={activeProject.id}
         onClose={() => setProjectsModalOpen(false)}
@@ -1954,20 +1939,17 @@ export default function App() {
 
       <TemplatesModal
         open={templatesOpen}
-        theme={theme}
         onClose={() => setTemplatesOpen(false)}
         onApplyTemplate={handleApplyTemplate}
       />
 
       <ShortcutsModal
         open={shortcutsOpen}
-        theme={theme}
         onClose={() => setShortcutsOpen(false)}
       />
 
       <AiBreakdownModal
         open={aiModalOpen}
-        theme={theme}
         columns={columns}
         defaultColumnId={defaultPendingColumnId}
         onClose={() => setAiModalOpen(false)}

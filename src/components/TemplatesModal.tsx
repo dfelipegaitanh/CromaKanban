@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react';
 import { LayoutGrid, X } from 'lucide-react';
 import { BOARD_TEMPLATES } from '../data/initialBoard';
-import { BoardTemplate, ThemeMode } from '../types/kanban';
+import { BoardTemplate } from '../types/kanban';
 
 interface TemplatesModalProps {
   open: boolean;
-  theme: ThemeMode;
   onClose: () => void;
   onApplyTemplate: (template: BoardTemplate) => void;
 }
 
 export const TemplatesModal: React.FC<TemplatesModalProps> = ({
   open,
-  theme,
   onClose,
   onApplyTemplate,
 }) => {
-  const isPsy = theme === 'psychedelic';
-
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -42,8 +38,8 @@ export const TemplatesModal: React.FC<TemplatesModalProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? '8px 8px 0px #00F5D4' : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -78,10 +74,7 @@ export const TemplatesModal: React.FC<TemplatesModalProps> = ({
               className="flex cursor-pointer flex-col justify-between rounded-xl p-4 text-left transition-all hover:-translate-y-0.5"
               style={{
                 backgroundColor: 'var(--modal-input-bg)',
-                border: isPsy
-                  ? '2px solid var(--modal-border)'
-                  : `1px solid var(--modal-input-border)`,
-                boxShadow: isPsy ? '4px 4px 0px #FF2E93' : 'none',
+                border: `1px solid var(--modal-input-border)`,
               }}
             >
               <div>

@@ -12,7 +12,6 @@ import {
   COLUMN_ACCENTS,
   KanbanCardItem,
   KanbanColumnItem,
-  ThemeMode,
 } from '../types/kanban';
 
 interface MobileCardActionBarProps {
@@ -20,7 +19,6 @@ interface MobileCardActionBarProps {
   columns: KanbanColumnItem[];
   cardIndexInColumn: number;
   totalInColumn: number;
-  theme: ThemeMode;
   onMoveWithinColumn: (cardId: string, direction: -1 | 1) => void;
   onMoveToColumn: (cardId: string, targetColumnId: string) => void;
   onClose: () => void;
@@ -31,12 +29,10 @@ export const MobileCardActionBar: React.FC<MobileCardActionBarProps> = ({
   columns,
   cardIndexInColumn,
   totalInColumn,
-  theme,
   onMoveWithinColumn,
   onMoveToColumn,
   onClose,
 }) => {
-  const isPsy = theme === 'psychedelic';
   const [columnPickerOpen, setColumnPickerOpen] = useState(false);
 
   useEffect(() => {
@@ -54,10 +50,8 @@ export const MobileCardActionBar: React.FC<MobileCardActionBarProps> = ({
   const canMoveDown = cardIndexInColumn >= 0 && cardIndexInColumn < totalInColumn - 1;
 
   const accentHex = currentColumn
-    ? isPsy
-      ? COLUMN_ACCENTS[currentColumn.accent].psychedelicHex
-      : COLUMN_ACCENTS[currentColumn.accent].standardHex
-    : '#00F5D4';
+    ? COLUMN_ACCENTS[currentColumn.accent].standardHex
+    : '#0891B2';
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 px-2.5 pb-2.5">
@@ -68,8 +62,8 @@ export const MobileCardActionBar: React.FC<MobileCardActionBarProps> = ({
           style={{
             backgroundColor: 'var(--modal-bg)',
             color: 'var(--modal-text)',
-            border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-            boxShadow: isPsy ? `5px 5px 0px ${accentHex}` : '0 16px 36px rgba(0,0,0,0.45)',
+            border: `1px solid var(--modal-border)`,
+            boxShadow: '0 16px 36px rgba(0,0,0,0.45)',
           }}
         >
           <div className="mb-2 flex items-center justify-between px-1">
@@ -86,9 +80,7 @@ export const MobileCardActionBar: React.FC<MobileCardActionBarProps> = ({
           <div className="grid max-h-44 grid-cols-2 gap-1.5 overflow-y-auto">
             {columns.map((col) => {
               const isCurrent = col.id === card.columnId;
-              const colColor = isPsy
-                ? COLUMN_ACCENTS[col.accent].psychedelicHex
-                : COLUMN_ACCENTS[col.accent].standardHex;
+              const colColor = COLUMN_ACCENTS[col.accent].standardHex;
               return (
                 <button
                   key={col.id}
@@ -129,8 +121,8 @@ export const MobileCardActionBar: React.FC<MobileCardActionBarProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? `2px solid ${accentHex}` : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? `4px 4px 0px ${accentHex}` : '0 16px 36px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 16px 36px rgba(0,0,0,0.45)',
         }}
       >
         <div className="mb-1.5 flex items-center justify-between gap-2">

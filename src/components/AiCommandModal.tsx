@@ -60,8 +60,6 @@ export const AiCommandModal: React.FC<AiCommandModalProps> = ({
   onClose,
   onExecuteActions,
 }) => {
-  const isPsy = theme === 'psychedelic';
-
   const [inputText, setInputText] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [recordingSeconds, setRecordingSeconds] = useState(0);
@@ -322,8 +320,8 @@ export const AiCommandModal: React.FC<AiCommandModalProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? '8px 8px 0px #00F5D4' : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -332,9 +330,8 @@ export const AiCommandModal: React.FC<AiCommandModalProps> = ({
             <div
               className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl sm:h-10 sm:w-10"
               style={{
-                backgroundColor: isPsy ? '#FF2E93' : 'var(--cta-bg)',
-                color: isPsy ? '#FFF9F0' : 'var(--cta-text)',
-                border: isPsy ? '2px solid #16072B' : 'none',
+                backgroundColor: 'var(--cta-bg)',
+                color: 'var(--cta-text)',
               }}
             >
               <Mic className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -426,15 +423,11 @@ export const AiCommandModal: React.FC<AiCommandModalProps> = ({
               style={{
                 backgroundColor: isRecording
                   ? '#DC2626'
-                  : isPsy
-                    ? '#CCFF00'
-                    : 'var(--modal-input-bg)',
+                  : 'var(--modal-input-bg)',
                 color: isRecording
                   ? '#FFFFFF'
-                  : isPsy
-                    ? '#16072B'
-                    : 'var(--modal-text)',
-                border: isPsy ? '2px solid #16072B' : `1px solid var(--modal-input-border)`,
+                  : 'var(--modal-text)',
+                border: `1px solid var(--modal-input-border)`,
               }}
             >
               {isRecording ? (
@@ -464,7 +457,7 @@ export const AiCommandModal: React.FC<AiCommandModalProps> = ({
               style={{
                 backgroundColor: 'var(--cta-bg)',
                 color: 'var(--cta-text)',
-                border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+                border: '1px solid transparent',
                 boxShadow: 'var(--cta-shadow)',
               }}
             >

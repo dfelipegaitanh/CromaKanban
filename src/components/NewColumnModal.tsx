@@ -1,21 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
-import { COLUMN_ACCENTS, ColumnAccentId, ThemeMode } from '../types/kanban';
+import { COLUMN_ACCENTS, ColumnAccentId } from '../types/kanban';
 
 interface NewColumnModalProps {
   open: boolean;
-  theme: ThemeMode;
   onClose: () => void;
   onCreateColumn: (title: string, accent: ColumnAccentId) => void;
 }
 
 export const NewColumnModal: React.FC<NewColumnModalProps> = ({
   open,
-  theme,
   onClose,
   onCreateColumn,
 }) => {
-  const isPsy = theme === 'psychedelic';
   const [title, setTitle] = useState('');
   const [accent, setAccent] = useState<ColumnAccentId>('tangerine');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -59,8 +56,8 @@ export const NewColumnModal: React.FC<NewColumnModalProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? '8px 8px 0px #CCFF00' : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -105,7 +102,7 @@ export const NewColumnModal: React.FC<NewColumnModalProps> = ({
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               {(Object.keys(COLUMN_ACCENTS) as ColumnAccentId[]).map((key) => {
                 const item = COLUMN_ACCENTS[key];
-                const color = isPsy ? item.psychedelicHex : item.standardHex;
+                const color = item.standardHex;
                 const selected = accent === key;
                 return (
                   <button
@@ -146,7 +143,7 @@ export const NewColumnModal: React.FC<NewColumnModalProps> = ({
               style={{
                 backgroundColor: 'var(--cta-bg)',
                 color: 'var(--cta-text)',
-                border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+                border: '1px solid transparent',
                 boxShadow: 'var(--cta-shadow)',
               }}
             >

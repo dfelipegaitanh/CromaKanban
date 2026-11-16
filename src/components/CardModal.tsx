@@ -6,13 +6,11 @@ import {
   KanbanCardItem,
   KanbanColumnItem,
   PriorityLevel,
-  ThemeMode,
 } from '../types/kanban';
 
 interface CardModalProps {
   card: KanbanCardItem | null;
   columns: KanbanColumnItem[];
-  theme: ThemeMode;
   onClose: () => void;
   onSave: (updated: KanbanCardItem) => void;
   onDelete: (cardId: string) => void;
@@ -21,13 +19,10 @@ interface CardModalProps {
 export const CardModal: React.FC<CardModalProps> = ({
   card,
   columns,
-  theme,
   onClose,
   onSave,
   onDelete,
 }) => {
-  const isPsy = theme === 'psychedelic';
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -62,10 +57,8 @@ export const CardModal: React.FC<CardModalProps> = ({
 
   const currentCol = columns.find((c) => c.id === columnId);
   const accentHex = currentCol
-    ? isPsy
-      ? COLUMN_ACCENTS[currentCol.accent].psychedelicHex
-      : COLUMN_ACCENTS[currentCol.accent].standardHex
-    : '#FF2E93';
+    ? COLUMN_ACCENTS[currentCol.accent].standardHex
+    : '#DB2777';
 
   const handleAddChecklistItem = () => {
     const trimmed = newStepText.trim();
@@ -106,8 +99,8 @@ export const CardModal: React.FC<CardModalProps> = ({
         style={{
           backgroundColor: 'var(--modal-bg)',
           color: 'var(--modal-text)',
-          border: isPsy ? '2px solid var(--modal-border)' : `1px solid var(--modal-border)`,
-          boxShadow: isPsy ? `8px 8px 0px ${accentHex}` : '0 24px 48px -12px rgba(0,0,0,0.45)',
+          border: `1px solid var(--modal-border)`,
+          boxShadow: '0 24px 48px -12px rgba(0,0,0,0.45)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -290,7 +283,7 @@ export const CardModal: React.FC<CardModalProps> = ({
                       style={{
                         backgroundColor: item.done ? accentHex : 'transparent',
                         borderColor: item.done ? accentHex : 'var(--modal-text-muted)',
-                        color: item.done ? '#16072B' : 'transparent',
+                        color: item.done ? '#FFFFFF' : 'transparent',
                       }}
                     >
                       <Check className="h-3 w-3 stroke-[3]" />
@@ -372,7 +365,7 @@ export const CardModal: React.FC<CardModalProps> = ({
                 style={{
                   backgroundColor: 'var(--cta-bg)',
                   color: 'var(--cta-text)',
-                  border: isPsy ? '2px solid var(--cta-border)' : '1px solid transparent',
+                  border: '1px solid transparent',
                   boxShadow: 'var(--cta-shadow)',
                 }}
               >
