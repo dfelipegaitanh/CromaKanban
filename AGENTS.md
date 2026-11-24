@@ -23,17 +23,17 @@ Este proyecto es una aplicación **local-first**. No se requiere burocracia de s
 
 ## 2. Escuadrón de Agentes Especializados (`.agents/agents/`)
 
-**Punto de entrada recomendado:** selecciona **`orquestador`** ([orquestador.md](.agents/agents/orquestador.md)) como agente principal (dropdown en Antigravity 2.0 o `agy --agent orquestador`). No edita código: mide el impacto, reparte por capa entre los especialistas y cierra siempre con `auditor-practicas`.
+**Punto de entrada recomendado:** selecciona **`orchestrator`** ([orchestrator.md](.agents/agents/orchestrator.md)) como agente principal (dropdown en Antigravity 2.0 o `agy --agent orchestrator`). No edita código: mide el impacto, reparte por capa entre los especialistas y cierra siempre con `practices-auditor`.
 
 Si trabajas con el agente por defecto, aplica la misma regla: toda tarea de desarrollo que toque más de una capa se delega a los especialistas y se verifica con el auditor antes de darla por terminada.
 
 Los 4 especialistas permanentes del proyecto:
 
-1. **`auditor-practicas`** ([auditor-practicas.md](.agents/agents/auditor-practicas.md)):
+1. **`practices-auditor`** ([practices-auditor.md](.agents/agents/practices-auditor.md)):
    - Guardián de arquitectura, disciplina de rutas, separación de responsabilidades (SRP), Fuente Única de Verdad (SSOT) e higiene de ejecución (`npm run lint` + `npm run build`).
-2. **`arquitecto-estado-datos`** ([arquitecto-estado-datos.md](.agents/agents/arquitecto-estado-datos.md)):
+2. **`state-data-architect`** ([state-data-architect.md](.agents/agents/state-data-architect.md)):
    - Dueño de modelos de dominio, estado en cliente, sincronización `localStorage` ↔ `./data/` y rutas de datos en el servidor local.
-3. **`especialista-ui-ux`** ([especialista-ui-ux.md](.agents/agents/especialista-ui-ux.md)):
+3. **`ui-ux-specialist`** ([ui-ux-specialist.md](.agents/agents/ui-ux-specialist.md)):
    - Dueño de vistas, componentes, tokens multi-tema, animaciones a 60fps (`requestAnimationFrame` / `motion`) y ergonomía Desktop/Mobile.
-4. **`ingeniero-ia-flujos`** ([ingeniero-ia-flujos.md](.agents/agents/ingeniero-ia-flujos.md)):
+4. **`ai-workflows-engineer`** ([ai-workflows-engineer.md](.agents/agents/ai-workflows-engineer.md)):
    - Dueño del copiloto multimodal (voz, texto, `FunctionDeclaration`, esquemas estructurados y reversibilidad Undo de acciones de IA).
